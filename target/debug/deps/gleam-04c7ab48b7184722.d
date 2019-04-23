@@ -1,0 +1,11 @@
+/Users/mikhailallen/Downloads/gravity/target/debug/deps/libgleam-04c7ab48b7184722.rlib: /Users/mikhailallen/.cargo/registry/src/github.com-1ecc6299db9ec823/gleam-0.6.16/src/lib.rs /Users/mikhailallen/.cargo/registry/src/github.com-1ecc6299db9ec823/gleam-0.6.16/src/gl.rs /Users/mikhailallen/.cargo/registry/src/github.com-1ecc6299db9ec823/gleam-0.6.16/src/gl_fns.rs /Users/mikhailallen/.cargo/registry/src/github.com-1ecc6299db9ec823/gleam-0.6.16/src/gles_fns.rs /Users/mikhailallen/Downloads/gravity/target/debug/build/gleam-8fd15dd9a322b0b9/out/gl_and_gles_bindings.rs /Users/mikhailallen/Downloads/gravity/target/debug/build/gleam-8fd15dd9a322b0b9/out/gl_bindings.rs /Users/mikhailallen/Downloads/gravity/target/debug/build/gleam-8fd15dd9a322b0b9/out/gles_bindings.rs
+
+/Users/mikhailallen/Downloads/gravity/target/debug/deps/gleam-04c7ab48b7184722.d: /Users/mikhailallen/.cargo/registry/src/github.com-1ecc6299db9ec823/gleam-0.6.16/src/lib.rs /Users/mikhailallen/.cargo/registry/src/github.com-1ecc6299db9ec823/gleam-0.6.16/src/gl.rs /Users/mikhailallen/.cargo/registry/src/github.com-1ecc6299db9ec823/gleam-0.6.16/src/gl_fns.rs /Users/mikhailallen/.cargo/registry/src/github.com-1ecc6299db9ec823/gleam-0.6.16/src/gles_fns.rs /Users/mikhailallen/Downloads/gravity/target/debug/build/gleam-8fd15dd9a322b0b9/out/gl_and_gles_bindings.rs /Users/mikhailallen/Downloads/gravity/target/debug/build/gleam-8fd15dd9a322b0b9/out/gl_bindings.rs /Users/mikhailallen/Downloads/gravity/target/debug/build/gleam-8fd15dd9a322b0b9/out/gles_bindings.rs
+
+/Users/mikhailallen/.cargo/registry/src/github.com-1ecc6299db9ec823/gleam-0.6.16/src/lib.rs:
+/Users/mikhailallen/.cargo/registry/src/github.com-1ecc6299db9ec823/gleam-0.6.16/src/gl.rs:
+/Users/mikhailallen/.cargo/registry/src/github.com-1ecc6299db9ec823/gleam-0.6.16/src/gl_fns.rs:
+/Users/mikhailallen/.cargo/registry/src/github.com-1ecc6299db9ec823/gleam-0.6.16/src/gles_fns.rs:
+/Users/mikhailallen/Downloads/gravity/target/debug/build/gleam-8fd15dd9a322b0b9/out/gl_and_gles_bindings.rs:
+/Users/mikhailallen/Downloads/gravity/target/debug/build/gleam-8fd15dd9a322b0b9/out/gl_bindings.rs:
+/Users/mikhailallen/Downloads/gravity/target/debug/build/gleam-8fd15dd9a322b0b9/out/gles_bindings.rs:

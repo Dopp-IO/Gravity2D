@@ -1,0 +1,11 @@
+[package]
+name = "physics2d"
+version = "0.1.0"
+authors = ["Dopp-IO"]
+edition = "2018"
+
+[dependencies]
+piston = "*"
+piston2d-graphics = "*"
+pistoncore-glutin_window = "*"
+piston2d-opengl_graphics = "*"
