@@ -9,17 +9,20 @@ pub struct PhysObject2d {
     //in coulombs
     pub charge: f64,
     //in newtons
-    pub force: [f64; 2]
+    pub force: [f64; 2],
+    //color
+    pub color: [f32; 4]
 }
 
 impl PhysObject2d {
-    pub fn new (mass: f64, pos: [f64; 2], vel: [f64; 2], charge: f64) -> PhysObject2d {
+    pub fn new (mass: f64, pos: [f64; 2], vel: [f64; 2], charge: f64, color: [f32; 4]) -> PhysObject2d {
         PhysObject2d {
             mass: mass,
             pos: pos,
             vel: vel,
             charge: charge,
-            force: [0.0, 0.0]
+            force: [0.0, 0.0],
+            color: color
         }
     }
 }
@@ -29,6 +32,7 @@ pub fn phys_step (mut phys_objects: Vec<PhysObject2d>, time_step: f64) -> Vec<Ph
     //applies force of outer object to inner object
     let g_const: f64 = 0.0000000000667408;
     let c_const: f64 = 8987551787.0;
+    let merge_dist: f64 = 3.0;
 
     //reset forces
     for object in 0..phys_objects.len() {
@@ -38,18 +42,23 @@ pub fn phys_step (mut phys_objects: Vec<PhysObject2d>, time_step: f64) -> Vec<Ph
     //calculate cumulative forces on all objects
     for outer in 0..phys_objects.len() {
         for inner in 0..phys_objects.len() {
-            let distance: f64 = ((phys_objects[outer].pos[0] + phys_objects[inner].pos[0]).powi(2) + (phys_objects[outer].pos[1] + phys_objects[inner].pos[1]).powi(2)).sqrt();
+            if inner != outer {
+                let distance: f64 = ((phys_objects[outer].pos[0] - phys_objects[inner].pos[0]).powi(2) + (phys_objects[outer].pos[1] - phys_objects[inner].pos[1]).powi(2)).sqrt();
+                if distance <= merge_dist {
 
-            //components
-            let h_scale: f64 = (phys_objects[outer].pos[0] - phys_objects[inner].pos[0]) / distance;
-            let v_scale: f64 = (phys_objects[outer].pos[1] - phys_objects[inner].pos[1]) / distance;
+                } else {
+                    //components
+                    let h_scale: f64 = (phys_objects[outer].pos[0] - phys_objects[inner].pos[0]) / distance;
+                    let v_scale: f64 = (phys_objects[outer].pos[1] - phys_objects[inner].pos[1]) / distance;
 
-            //forces
-            let g_force = g_const * phys_objects[outer].mass * phys_objects[inner].mass / distance.powi(2);
-            let e_force = c_const * phys_objects[outer].charge * phys_objects[inner].charge / distance.powi(2);
+                    //forces
+                    let g_force = g_const * phys_objects[outer].mass * phys_objects[inner].mass / distance.powi(2);
+                    let e_force = c_const * phys_objects[outer].charge * phys_objects[inner].charge / distance.powi(2);
 
-            phys_objects[inner].force[0] = phys_objects[inner].force[0] + (g_force + e_force) * h_scale;
-            phys_objects[inner].force[1] = phys_objects[inner].force[1] + (g_force + e_force) * v_scale;
+                    phys_objects[inner].force[0] = phys_objects[inner].force[0] + (g_force - e_force) * h_scale;
+                    phys_objects[inner].force[1] = phys_objects[inner].force[1] + (g_force - e_force) * v_scale;
+                }
+            }
         }
     }
 

@@ -9,15 +9,22 @@ use piston::window::WindowSettings;
 use glutin_window::GlutinWindow as Window;
 use piston::event_loop::{Events, EventSettings};
 use opengl_graphics::{OpenGL, GlGraphics};
-use piston::input::{RenderEvent, UpdateEvent, MouseCursorEvent, ButtonEvent, ButtonState};
+use piston::input::{RenderEvent, UpdateEvent, MouseCursorEvent, ButtonEvent, ButtonState, Button, MouseButton};
 
 fn main() {
     //program-wide variables
     let mut phys_objects: Vec<physics::PhysObject2d> = Vec::new();
     let mut mouse_pos: [f64; 2] = [0.0, 0.0];
     let mut mouse_click_pos: [f64; 2] = [0.0, 0.0];
-    let mut current_mass: f64 = 1000000000000000.0; //a bit less than Earth's mass
+    let mut current_mass: f64 = 100000000000.0;
     let mut current_charge: f64 = 0.0;
+    let mut draw_dir: bool = false;
+    let mut drag_scale: f64 = 0.001;
+
+    //colors
+    let red: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
+    let green: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
+    let blue: [f32; 4] = [0.0, 0.0, 1.0, 1.0];
 
     //graphics
     use graphics::*;
@@ -47,10 +54,17 @@ fn main() {
     while let Some(e) = render_events.next(&mut window) {
         if let Some(args) = e.render_args() {
             gl.draw(args.viewport(), |c, g| {
-                clear([1.0; 4], g);
+                //clear([1.0; 4], g);
+                rectangle([1.0, 1.0, 1.0, 0.1], rectangle::square(0.0, 0.0, 1000.0), c.transform, g);
 
+                //render all objectes in phys_objects
                 for object in 0..phys_objects.len() {
-                    rectangle([0.0, 0.0, 0.0, 1.0], rectangle::square(phys_objects[object].pos[0] - 5.0, phys_objects[object].pos[1] - 5.0, 10.0), c.transform, g);
+                    rectangle(phys_objects[object].color, rectangle::square(phys_objects[object].pos[0] - 1.0, phys_objects[object].pos[1] - 1.0, 2.0), c.transform, g);
+                }
+
+                //draw force line
+                if (draw_dir) {
+                    line([1.0, 0.0, 0.0, 1.0], 0.5, [mouse_click_pos[0], mouse_click_pos[1], mouse_pos[0], mouse_pos[1]], c.transform, g);
                 }
             });
         }
@@ -62,10 +76,29 @@ fn main() {
         }
         if let Some(args) = e.button_args() {
             if args.state == ButtonState::Press {
-                mouse_click_pos = mouse_pos;
+                if args.button == Button::Mouse(MouseButton::Left) || args.button == Button::Mouse(MouseButton::Right){
+                    mouse_click_pos = mouse_pos;
+                    draw_dir = true;
+                }
             } else {
                 //Create new physics object
-                phys_objects.push(physics::PhysObject2d::new(current_mass, mouse_click_pos, [(mouse_pos[0] - mouse_click_pos[0]) * 0.001, (mouse_pos[1] - mouse_click_pos[1]) * 0.001], 0.0));
+                //Left click for heavy object
+                if args.button == Button::Mouse(MouseButton::Left) {
+                    current_mass = 100000000000.0;
+                    current_charge = 0.0;
+
+                    phys_objects.push(physics::PhysObject2d::new(current_mass, mouse_click_pos, [(mouse_pos[0] - mouse_click_pos[0]) * drag_scale, (mouse_pos[1] - mouse_click_pos[1]) * drag_scale], current_charge, green));
+                    draw_dir = false;
+                }
+
+                //Right click for light object
+                if args.button == Button::Mouse(MouseButton::Right) {
+                    current_mass = 10000.0;
+                    current_charge = 0.0;
+
+                    phys_objects.push(physics::PhysObject2d::new(current_mass, mouse_click_pos, [(mouse_pos[0] - mouse_click_pos[0]) * drag_scale, (mouse_pos[1] - mouse_click_pos[1]) * drag_scale], current_charge, blue));
+                    draw_dir = false;
+                }
             }
         }
     }
